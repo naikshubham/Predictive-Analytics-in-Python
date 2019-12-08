@@ -6,7 +6,7 @@
 - An **analytical base table** is typically stored in a pandas dataframe. Three important variables in the analytical basetable are : **`population`**, **`candidate predictors`** and the **`target`**
 - **Population** is the group of people or object we want to make the predicton for **(rows of data)**
 - **Candidate predictors** is the information that can be used to predict the event **(features)**
-- **Tagret** is the event to **`predict`**, 
+- **Target** is the event to **`predict`**, 
 
 ```python
 import pandas as pd
@@ -79,7 +79,7 @@ roc_auc_score(true_target, prob_target)
 
 ```python
 from sklearn import linear_model
-from sklearn.metrics import roc_auc_scores
+from sklearn.metrics import roc_auc_score
 
 def auc(variables, target, basetable):
     X = basetable[variables]
