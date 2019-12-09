@@ -151,10 +151,32 @@ for i in range(0, number_iterations):
 print(current_variables)
 ```
 
+### Deciding on the number of variables
+- Forward Stepwise variable selection returns the order in which the variables increase the accuracy, but we need to decide on how many variables to use.
 
+```python
+auc_values = []
+variables_evaluate = []
 
+for v in variables_forward:
+    variables_evaluate.append(v)
+    auc_value = auc(variables_evaluate, ["target"], basetable)
+    auc_values.append(auc_value)
+```
 
+- Inorder to do so, we can have a look at the **AUC values**. The order of the variables is given in the list `variables_forward`. For each variable in variable forward calculate the AUC values.
 
+<p align="center">
+  <img src="data/AUC.JPG" width="350" title="AUC">
+</p>
+
+- If we plot the AUC values we obtain a curve that typically keeps increasing
+. However, if we use new data to evaluate subsequent models it doesn't increase, instead it decreases after a while. This phenomenon is called overfitting.
+- By adding more variables the accuracy on the data on which model is built increases, but the true performance of the model decreases because the complex model doesnt generalize to other data.
+
+#### Detecting over-fitting
+- There exits smart techniques to detect and prevent overfitting. Performance on the test dataset is representative of the true performance of the model.
+- One way of partioning data is randomly dividing the data into two parts, however when the data is imbalanced it is important to make sure that the target variable is in same proportion in train and test. It can be done by using **`stratify`** on the target while splitting the data.
 
 
 
