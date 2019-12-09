@@ -178,6 +178,54 @@ for v in variables_forward:
 - There exits smart techniques to detect and prevent overfitting. Performance on the test dataset is representative of the true performance of the model.
 - One way of partioning data is randomly dividing the data into two parts, however when the data is imbalanced it is important to make sure that the target variable is in same proportion in train and test. It can be done by using **`stratify`** on the target while splitting the data.
 
+```python
+from sklearn.model_selection import train_test_split
+
+X = basetable.drop("target", 1)
+y = basetable["target"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, stratify = Y)
+
+train = pd.concat([X_train, y_train], axis=1)
+test = pd.concat([X_test, y_test], axis=1)
+```
+
+#### Deciding the cut-off
+
+<p align="center">
+  <img src="data/cutoff.JPG" width="350" title="cutoff">
+</p>
+
+- We can now plot AUC curves of the subsequent models on both the train and test data.We can see that the train AUC keeps increasing while the test AUC stabalizes and then decreases.
+- When deciding on how many variables to keep in the model, once we take into account that **test AUC is as high as possible** and the **model should have least variables possible**.
+- In this case it's clear that the cut-off indicated by the dashed line is the best option. All models having more variables has lower test accuracy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
