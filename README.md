@@ -200,6 +200,84 @@ test = pd.concat([X_test, y_test], axis=1)
 - When deciding on how many variables to keep in the model, once we take into account that **test AUC is as high as possible** and the **model should have least variables possible**.
 - In this case it's clear that the cut-off indicated by the dashed line is the best option. All models having more variables has lower test accuracy.
 
+## Explaining model performance to business
+
+### The cumulative gains curve
+- Once the model is ready we need to show it to the business. VIsualization of model performance that business people can understand.
+- Until now we evaluated models using the AUC. Though it is very useful for data scientist it is less appropriate if we want to discuss the model performance with business stakeholders.
+- Indeed, AUC is a bit complex evaluation measure that is not much intutive.Moreover, its a single number which doesn't catch all the information about the model.
+- For better visualization we can use evaluation curve like the cumulative gains curve. This type of curves are easy to explain and guide us to better business decisions.
+
+#### **Cumulative gains curve** is constructed as follows :
+
+<p align="center">
+  <img src="data/cumulative_gains.JPG" width="350" title="cumulative_gains">
+</p>
+
+- First, we order all the observations according to the output of the model. One the LHS are the observations with the highest probabilty to be target according to the model and on the RHS are the observations with lowest probabilty to be target.
+- On the horizontal axis of cumulative gains curve, it is indicated which percentage of the observations is considered. For instance, 30% of the observations with the highest probabilty to be target is considered.
+- On the vertical axis, the curve indicates which percentage of all targets is included in this group. For instance, if the cumulative gain is 70% at 30%, it means we are taking the top 30% observations with highest probabilty to be target, this group contains already 70% of all targets. 
+
+<p align="center">
+  <img src="data/cum_gain.JPG" width="350" title="cumulative_gains">
+</p>
+
+- The cumulative gains curve is the great tool to compare models. **The more the line is situated to the upper left corner, the better the model**. It is often the case that two models produce curves that cross each other. In that case, it is not straightforward to decide which model is best. In this case, for instance, we can say that model 2 is better to distinguish the top 10% observations from the rest, while model 1 is better to distinguish the top 70% of the observations from the rest.
+
+#### Cumulative gains in python
+- Constructing cumulative gains curves in Python is easy with the **scikitplot** module.
+
+```python
+import scikitplot as skplt
+import matplotlib.pyplot as plt
+
+skplt.metrics.plot_cumulative_gain(true_values, predictions)
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
