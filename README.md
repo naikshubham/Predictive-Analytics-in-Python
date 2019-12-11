@@ -235,6 +235,132 @@ skplt.metrics.plot_cumulative_gain(true_values, predictions)
 plt.show()
 ```
 
+### The Lift Curve
+- In addition to the cumulative gains curve, the lift curve is a widely used visualisation of model performance.
+
+<p align="center">
+  <img src="data/lift_curve.JPG" width="350" title="lift_curve">
+</p>
+
+- Constructing a lift curve follows a similar process as constructing a cumulative gains curve. First, we order all the observations according to the model. On the horizontal axis of the lift curve, we indicate which percentage of the observation is considered. On the vertical axis, the lift curve indicates how many times more than average targets are included in this group.
+- Consider for instance the lift at 10%, and assume that the top 10% observations contains 20% targets. If the average percentage of targets is 5%, the lift is 4, because 20% is 4 times 5%.
+- As another example, consider the lift at 50%, and assume that the top 50% observations contain 10% targets. As 10% is 2 times 5%, the average percentage of targets, the lift is 2 at 50%.
+
+#### Lift curve interpretation
+
+<p align="center">
+  <img src="data/lift_curve_interpret.JPG" width="350" title="lift_curve_interpretation">
+</p>
+
+- A random model has a more or less equal percentage of targets for each group, and therefore the baseline is 1. Better models has higher lifts. Therefore **curves that are higher, have better accuracy**. However, as for cumulative gains curve, also lift curves of different models can cross each other.
+- Consider the example given here: model 2 is higher at 10%, but model 1 is higher at 80%. In that case it is hard to say which model is best, as it depends on the situation.If we can target 10% of the population, model 2 is better suited because we can reach more targets, whereas model 1 is better if we want to target a larger part of the population.
+
+#### Lift curve in Python
+
+```python
+import scikitplot as skplt
+import matplotlib.pyplot as plt
+
+skplt.metrics.plot_lift_curve(true_values, predictions)
+plt.show()
+```
+
+## Interpreting and explaining models
+
+### Predictor Insights Graphs
+- It is important to check with business and domain experts whether the model is interpretable. In a typical predictive modelling project, we proceed as follows when we need to make a prediction model:
+- **1)** First, we contruct a predictive model (Build model)
+- **2)** Then, we can evaluate the predictive model using the AUC accuracy metric, and additionally using the cumulative gains and lift curves. 
+- **3)** One last step that we should carry out to make sure that the model is sound and logical, is to interpret the variables in our model, and verify whether the link between these variables and the target makes sense. (Verify whether the variables in the model are interpretable)
+
+- Here we can use the **predictor insights graphs**
+
+#### Predictor insights graphs for categorical variable
+
+<p align="center">
+  <img src="data/predictor_insights_graph.JPG" width="350" title="predictor_insights_graph">
+</p>
+
+- **These graphs shows the link between the predictive variables and the target that we want to predict**.
+- Consider for instance this predictor insight graph that shows the relationship between income and donations. On the horizontal axis, the predictive variable is divided into 3 groups, donors with low, average and high income. The height of the grey bars indicate how many donors are in each group and is associated with the left hand side vertical axis. The green line indicates the perentage of targets in each group and is associated with the RHS vertical axis.
+- In this graph, we can see that the higher someones income is the more likely he is to donate for the campaign. **This interpretation is logical, so it makes sense to keep variables related to income in the model.**
+
+#### Predictor insights graphs for continous variable
+
+<p align="center">
+  <img src="data/PIG_continuous.JPG" width="350" title="PIG_continuous">
+</p>
+
+- If the variable is continuos, an additional **discretization step that divides the continuos variables in bins** is needed. Above example shows the relationship between the time since someone first donated and the target.
+- The continuous variable `days since first donation` is split in five groups of equal size, and then the size of each group and target incidence is plot for each group. **It shows that the longer someone is a donor, the more likely he is to donate for the campaign.**
+
+#### The predictor insight graph table
+
+|Income   |size    | Incidence|
+:--------:|:------:|:--------:|
+|low      |20850   |0.0431    |
+|average  |62950   |0.0492    |
+|high     |16200   |0.0615    |
+
+- The values that are plotted in the predictor insight graph, is collected in a predictor insight graph table. This table has 3 columns: the categories that are displayed on the horizontal axis, the size of the group as displayed on LHS axis and the target incidence of each group displayed on the RHS axis.
+- We can access elements in the predictor insight graph using indexing
+
+```python
+print(pig_table["size"][income=="low"])
+```
+
+### Constructing a predictor insights graph
+- **1)** If the variable at hand is continous, first discretize the variable
+- **2)** Next, calculate the values that are needed to make the plot, these values are gathered in the PIG table (Calculate predictor insight graph table)
+- **3)** Finally, plot the predictor insight graph
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
