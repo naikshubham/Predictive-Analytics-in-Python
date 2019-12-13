@@ -234,7 +234,7 @@ import matplotlib.pyplot as plt
 skplt.metrics.plot_cumulative_gain(true_values, predictions)
 plt.show()
 ```
-- **Note that predictions should have values for both targets 1 and 0.**
+- **Note that predictions should have values for both targets 1 and 0.** We can use `predict_proba` to get prediction probablities for both the targets.README
 
 ### The Lift Curve
 - In addition to the cumulative gains curve, the lift curve is a widely used visualisation of model performance.
