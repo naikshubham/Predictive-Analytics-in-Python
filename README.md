@@ -315,6 +315,80 @@ print(pig_table["size"][income=="low"])
 - **2)** Next, calculate the values that are needed to make the plot, these values are gathered in the PIG table (Calculate predictor insight graph table)
 - **3)** Finally, plot the predictor insight graph
 
+### Preparing the predictor insights graph table
+
+```python
+import numpy as np
+
+# function that calculates the predictor insight graph table
+def create_pig_table(df, target, variable):
+	
+	# group by the variable we want to plot
+	groups = df[[target, variable]].groupby(variable)
+
+	#calculate the size and incidence of each group
+	pig_table = groups[target].agg({'Incidence':np.mean, 'size': np.size}).reset_index()
+	return pig_table
+print(create_pig_table(basetable, "target", "country")
+```
+
+- Construct the table that is needed to plot the predictor insight graphs.A PIG table is a table that has all the information necessary to create the predictor insight graph.It has one row for each group in the variable that we want to plot, and three columns.The first column contains the names of the groups, incase the original variable is continuous, these are the names of intervals it was discretized in. The second column shows the average target incidence of the group:what is the mean target in this group.The 3rd column shows the size of each group i.e the number of observations that belongs to the particular group.
+- We can easily construct a predictor insight graph for a given basetable, target and variable.In `create_pig_table` function we first group the basetable by the variable we want to make the predictor insight graph for. In these groups, we only need the variable and target values, that is why we only select these in this step.Next we use the aggregate function on these groups to create two columns.The first column is the target incidence, which is the mean of the target,2nd column is the size i.e the no of observations in each group. With this function we can easily calculate the predictor insight graph table for any variable.
+
+#### Calculating multiple predictor insight graph tables
+- Instead of calculating them one by one, we could do this automatically and store the PIG tables in a dictionary.
+
+```python
+# variable to plot
+variables = ['country', 'gender', 'disc_mean_gift', 'age']
+
+# empty dictionary
+pig_tables = {}
+
+#loop over all variables
+for variable in variables:
+	
+	# create the PIG table
+	pig_table = create_pig_table(basetable, "target", variable)
+
+	# store the table in the dict
+	pig_table[variable] = pig_table
+```
+
+- We can print PIG for any variable using the `pig_tables` dictionary.
+
+### Plotting the predictor insight graph
+- The PIG shows the link between a predictor and the target. For instance, the predictor insight graph of the predictor gender shows that females are more likely to donate.Additionally, this graph also shows the size of the different groups.
+- We construct the graph in two steps: First, we plot the target incidence line, and secondly we will plot the bars that show the group sizes as well. The values needed to contruct the PIG can be obtained from the PIG table.
+- Inorder to add the graphs with the sizes we need to add few lines of code
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# plot the graph
+plt.ylabel("size", rotation=0, rotation_mode="anchor", ha="right")
+
+pig_table["Incidence"].plot(secondary_y = True)
+
+pig_table["Size"].plot(kind='bar', width=0.5, color="lightgray", edgecolor="none")
+
+#show the group names
+plt.xticks(np.arange(len(pig_table)), pig_table['income'])
+
+#center the group names by adding margin to LHS and RHS of the plot
+width=0.5
+plt.xlim([-width, len(pig_table) - width])
+
+#add label incidence to the vertical axis
+plt.ylabel("incidence", rotation = 0, rotation_mode="anchor", ha="right")
+
+# add label income to the horizontal axis
+plt.xlabel("Income")
+plt.show()
+```
+
+
 
 
 
