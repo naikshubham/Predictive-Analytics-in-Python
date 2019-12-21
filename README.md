@@ -266,6 +266,35 @@ skplt.metrics.plot_lift_curve(true_values, predictions)
 plt.show()
 ```
 
+### Guiding business to better decisions
+- One way to make use of lift graph is to estimate the profit for a campaign
+
+#### Estimating profit
+- The population consists of 100000 candidate donors, and 5% among these candidate donors is target. Assume that we expect targets to donate 50 Euro, and that addressing a donor, for instance by sending him a letter, costs 2 Euro. Given this info we can calculate the expected profit of a campaign.
+- The profit depends on 5 elements: the percentage of targets in the selected donor group, the percentage selected donors, the population size and the reward of reaching a target and the cost of the campaign.
+- The total cost of the campaign is the cost of the campaign, 2 Euro, times the no of donors addressed, which is the percentage of selected donors times the population size.
+- The reward of the campaign is the reward of reaching a target times the number of targets reached. The final profit is then the reward minus the cost.
+- Assume that we address the top 20% donors with the highest probabilty to donate according to the model.
+
+
+```python
+population = 100000
+target_incidence = 0.05
+reward_target = 50
+cost_campaign = 2
+
+def profit(perc_targets, perc_selected, population_size, reward_target, cost_campaign)
+    cost = cost_campaign * perc_selected * population_size
+    reward = reward_target * perc_targets * perc_selected * population_size
+    return (reward - cost)
+
+perc_selected = 0.20
+lift = 2.5
+perc_targets = lift * target_incidence
+print(profit(perc_targets, perc_selected, population_size, reward_target, cost_campaign))
+```
+
+
 ## Interpreting and explaining models
 
 ### Predictor Insights Graphs
