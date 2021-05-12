@@ -428,6 +428,7 @@ start_target = datetime(year = 2018, month = 5, day = 1)
 end_target = datetime(year = 2018, month = 8, day = 1)
 
 gifts_target = gifts[(gifts['date'] >= start_target) & (gifts['date'] < end_target)]
+```
 
 gifts_pred_variables = gifts[(gifts['date'] < start_target)]
 ```
